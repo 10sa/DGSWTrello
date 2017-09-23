@@ -2,8 +2,13 @@
   "name": "dgswtrello",
   "version": "0.0.0",
   "description": "DGSWTrello",
-  "main": "server.js",
+  "main": "Server/main.js",
   "author": {
     "name": "DGSW"
+  },
+  "dependencies": {
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "passport": "^0.4.0"
   }
 }
