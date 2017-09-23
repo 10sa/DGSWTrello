@@ -1,0 +1,9 @@
+{
+  "name": "dgswtrello",
+  "version": "0.0.0",
+  "description": "DGSWTrello",
+  "main": "server.js",
+  "author": {
+    "name": "Asnet"
+  }
+}

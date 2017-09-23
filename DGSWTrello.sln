@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DGSWTrello", "DGSWTrello.njsproj", "{30C8BB6B-6C2B-4817-9DC3-1D8D6B9AD878}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30C8BB6B-6C2B-4817-9DC3-1D8D6B9AD878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C8BB6B-6C2B-4817-9DC3-1D8D6B9AD878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C8BB6B-6C2B-4817-9DC3-1D8D6B9AD878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C8BB6B-6C2B-4817-9DC3-1D8D6B9AD878}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2909EBF0-5DF8-4C0C-B877-9BC0602CD78F}
+	EndGlobalSection
+EndGlobal
