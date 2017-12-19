@@ -7,6 +7,8 @@ var configs = require("./configs.js");
 var express = require("express");
 var app = express();
 
+var account = require("./Routers/apis/account.js");
+
 
 passport.use("login", new localStrategy({
 	usernameField: "id",
@@ -29,11 +31,13 @@ passport.use("login", new localStrategy({
 	});
 	}));
 
-passport.use("kakao", new kakaoStratgey({
-	clientID: configs.kakaotalk.client_id,
+passport.use(new kakaoStratgey({
+	clientID: configs.kakaotalk.clientId,
 	callbackURL: configs.kakaotalk.callbackURL
 }, function (accessToken, refreshToken, profile, done) {
-
+	console.log("asdf");
+	var profileJson = profile._json;
+	loginThirdParty("kakao", profileJson.id, profileJson.properties.nickname, profileJson.id, done);
 }));
 
 passport.serializeUser(function (user, done) {
@@ -43,3 +47,26 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
 	done(null, user);
 });
+
+function loginThirdParty(authType, authId, authName, authEmail, done) {
+	dbConnection.query("SELECT * FROM users WHERE email = ? and thirdPartyId = ?", [authType, authId], function (error, result) {
+		if (error)
+			return done(error);
+		else {
+			if (result.length == 0) {
+				dbConnection.query("INSERT users VALUES (?, ?, ?, ?, ?, 0)", [authEmail, "", authType, authName, authId], function (error, result) {
+					if (error)
+						return done(error);
+					else {
+						dbConnection.query("SELECT * FROM users WHERE thirdPartyId = ?", authId, function (error, result) {
+							done(null, result[0]);
+						});
+					}
+				});
+			}
+			else {
+				done(null, result[0]);
+			}
+		}
+	})
+}

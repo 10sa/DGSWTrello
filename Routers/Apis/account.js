@@ -32,9 +32,12 @@ router.post("/login", function (request, response) {
 	})(request, response);
 });
 
-router.post("/login/kakao/callback", function (request, response) {
-	
-});
+router.get("/login/kakao", passport.authenticate("kakao"));
+
+router.get("/login/kakao/callback", passport.authenticate("kakao", {
+	successRedirect: "/",
+	failureRedirect: "/Pages/login"
+}));
 
 router.post("/logout", function (request, response) {
 	request.logout();
@@ -46,13 +49,12 @@ router.post("/signup", function (request, response) {
 	var password = request.body.password;
 	var email = request.body.email;
 
-	dbConnection.query("insert users values (?, ?, ?, ?, 0);", [id, password, email, "test"], function (error, result) {
+	dbConnection.query("insert users values (?, ?, ?, ?, null, 0);", [id, password, email, "test"], function (error, result) {
 		if (error)
 			response.json({ success: false });
 		else
 			response.json({ success: true });
 	});
 });
-
 
 module.exports = router;
