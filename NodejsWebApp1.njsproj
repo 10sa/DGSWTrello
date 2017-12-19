@@ -2,16 +2,16 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <Name>DGSWTrello</Name>
-    <RootNamespace>DGSWTrello</RootNamespace>
+    <Name>NodejsWebApp1</Name>
+    <RootNamespace>NodejsWebApp1</RootNamespace>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>30c8bb6b-6c2b-4817-9dc3-1d8d6b9ad878</ProjectGuid>
+    <ProjectGuid>d7a48c7e-ad2d-49f2-b2e2-c73964b41259</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Server\main.js</StartupFile>
+    <StartupFile>server.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,28 +28,63 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Server\AuthModuels\facebook-auth.js">
+    <Compile Include="configs.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Server\AuthModuels\google-auth.js">
+    <Compile Include="Database\dbConnector.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Server\AuthModuels\kakaotalk-auth.js">
+    <Compile Include="Pages\js\account.js" />
+    <Compile Include="Pages\js\Noname_javascript.js" />
+    <Compile Include="Pages\js\project.js" />
+    <Compile Include="Pages\js\utils.js" />
+    <Compile Include="passport.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Server\main.js" />
+    <Compile Include="Routers\apis.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Routers\Apis\account.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Routers\Apis\Project.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Routers\pages.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="server.js" />
     <Content Include="package.json" />
-    <Content Include="Pages\index.html">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="Pages\ChangePW.html" />
+    <Content Include="Pages\css\Noname_Style.css" />
+    <Content Include="Pages\FindID.html" />
+    <Content Include="Pages\ForgotIDPW.html" />
+    <Content Include="Pages\Form_Template_PManager.html" />
+    <Content Include="Pages\Login.html" />
+    <Content Include="Pages\Old_ChangePW.html" />
+    <Content Include="Pages\Old_FindID.html" />
+    <Content Include="Pages\Old_ForgotIDPW.html" />
+    <Content Include="Pages\Old_Iframe_login.html" />
+    <Content Include="Pages\Old_Signup.html" />
+    <Content Include="Pages\ProjectManage.html" />
+    <Content Include="Pages\resources\ChangePW.png" />
+    <Content Include="Pages\resources\facebook_icon.jpg" />
+    <Content Include="Pages\resources\FindID.png" />
+    <Content Include="Pages\resources\Goback_arrow.png" />
+    <Content Include="Pages\resources\google_icon.png" />
+    <Content Include="Pages\resources\kakaotalk_icon.png" />
+    <Content Include="Pages\resources\sampleusericon.png" />
+    <Content Include="Pages\Signup.html" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Server\" />
+    <Folder Include="Database\" />
     <Folder Include="Pages\" />
-    <Folder Include="Pages\js\" />
     <Folder Include="Pages\css\" />
-    <Folder Include="Server\AuthModuels\" />
+    <Folder Include="Pages\js\" />
+    <Folder Include="Pages\resources\" />
+    <Folder Include="Routers\" />
+    <Folder Include="Routers\Apis\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

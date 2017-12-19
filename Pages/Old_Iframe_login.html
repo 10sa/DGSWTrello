@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/Noname_Style.css" type="text/css">
+	<html lang="ko">
+	<meta charset="UTF-8">
+	<title> Login </title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/utils.js"></script>
+	<script type="text/javascript" src="/js/login.js"></script>
+</head>
+<body>
+	<script language="JavaScript">
+		// ��� ������ SDK
+		window.fbAsyncInit = function () {
+			FB.init({
+				appId: 'your-app-id',
+				autoLogAppEvents: true,
+				xfbml: true,
+				version: 'v2.10'
+			});
+			FB.AppEvents.logPageView();
+		};
+		(function (d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) { return; }
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<script>
+		$(document).ready(function () {
+			$('[data-toggle="popover"]').popover();
+		});
+	</script>
+	<div class="container">
+		<h1 id="Login" font-family="Nanum Gothic" , sefif> Log In </h1>
+		<form action="">
+			<div class="form-group">
+				<input type="text" id="ID" placeholder="ID" name="IDbox">
+				<span class="glyphicon glyphicon-question-sign" data-toggle="popover"
+					  title="Warning!" data-content="ID�� 12�ڸ� ���� �� �����ϴ�." data-placement="bottom"></span>
+			</div>
+			<div class="form-group">
+				<input type="text" id="PW" placeholder="Password" name="Pwbox">
+			</div>
+			<div class="btns">
+				<button type="button" class="btn btn-default" onclick="BtnSignInCallback()" id="signin"> Sign In </button>
+				<button type="button" class="btn btn-default" onclick="window.open('Signup.html')"> Sign Up </button>
+			</div>
+			<a style="margin-left: 50px" href="ForgotIDPW.html" target="_blank"> Forgot your ID / PW? </a>
+			<label for="Snss" style="margin-top: 10px"> Log in With SNS </label>
+			<div id="Snss" class="SNSlogin">
+				<img width="50" height="50" name="fb" src="resources/facebook_icon.jpg" />
+				<img width="50" height="50" name="kt" src="resources/kakaotalk_icon.png" />
+				<img width="50" height="50" name="gg" src="resources/google_icon.png" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>

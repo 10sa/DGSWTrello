@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title> Trello_Management </title>
+	<link rel="stylesheet" href="css/Noname_Style.css" type="text/css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/Noname_javascript.js"></script>
+	<script type="text/javascript" src="js/account.js"></script>
+	<script type="text/javascript" src="js/project.js"></script>
+</head>
+	<body onload="project.onload();">
+		<nav class="navbar navbar-inverse sidebar" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<div>
+						<img src="resources/sampleusericon.png" alt="usericon" class="usericon">
+						<a class="navbar-brand" id="usernameLabel" href="projects"> &nbsp;&nbsp;&nbsp;&nbsp; </a>
+						<a class="navbar-brand" href="dummy" onclick="account.Logout();"> &nbsp;&nbsp;&nbsp;&nbsp; Logout </a>
+					</div>
+				</div>
+			<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li style="font-size: 16px; text-align: center;" class="pull-center hidden-xs"> <a href="#"> Project </a> </li>
+					<li id="projectTables">
+						<a href="#" data-toggle="modal" data-target="#makenewproj" style="font-size: 16px; text-align: center;" class="pull-center hidden-xs"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="makenewproj" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"> &times; </button>
+					<h4 class="modal-title"> Make New Project </h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="ProjName" text-align="center"> Project Name </label>
+							<input class="form-control" id="projectName" type="text">
+						</div>
+
+						<div class="form-group">
+							<label for="ProjName" text-align="center"> Project Desc </label>
+							<input class="form-control" id="projectDesc" type="text">
+						</div>
+
+						<div class="form-group">
+							<label for="enddate" text-align="center"> Set deadline </label>
+							<input class="form-control" id="projectDeadline" type="text" placeholder="xxxx-xx-xx">
+						</div>
+
+						<div class="form-group">
+							<label for="addAch" text-align="center"> Add Achievements </label>
+							<input class="form-control" id="projectAchievements" type="text" placeholder="Add What to do">
+						</div>
+						<div>
+							<ui id="achievements">
+							</ui>
+						</div>
+
+						<button type="button" class="btn btn-default" onClick="project.createAchievement()">Add</button>
+						<button type="button" class="btn btn-default" onClick="project.createProject();">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>
