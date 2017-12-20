@@ -24,7 +24,15 @@ account.signup = function () {
 	var rePassword = document.getElementById("rePassword").value;
 	var email = document.getElementById("email").value;
 
-	console.log(password + rePassword);
+	if (password == "" || id == "" || email == "") {
+		alert("값은 공백일 수 없습니다!");
+		return;
+	}
+	else if (!email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
+		alert("잘못된 이메일 형식입니다!");
+		return;
+	}
+
 	var data = String.format("id={0}&password={1}&email={2}", id, password, email);
 	if (password == rePassword) {
 		Utils.Post(data, "../apis/account/signup", function (response) {
