@@ -15,6 +15,7 @@ project.refreshProjectList = function() {
 		if (response.success && response.projects.length > 0) {
 			var projectTables = document.getElementById("projectTables");
 
+			console.log(response.projects);
 			for (var i = 0; i < response.projects.length; i++)
 			{
 				var projectId = response.projects[i].projectId;
@@ -37,13 +38,50 @@ project.refreshProjectList = function() {
 project.loadProject = function (projectId) {
 	Utils.Post(String.format("projectId={0}", projectId), "../apis/project/getProject", function (response) {
 		if (response.success) {
-			var name = response.projectName;
-			var desc = response.projectDesc;
-			var json = response.projectJson;
+			var json = JSON.parse(response.projectJson);
+			var achievements = json.achievements;
+			var projectInfo = document.getElementById("projectInfo");
+			projectInfo.setAttribute("style", "visibility:visible");
+
+			document.getElementById("projectNameLabel").innerText = response.projectName;
+			document.getElementById("projectDescLabel").innerText = response.projectDesc;
+			document.getElementById("projectDeadlineLabel").innerText = json.deadline;
+
+			for (var i = 0; i < achievements.length; i++) {
+				var achievementsElement = project.createAchievementElement(achievements[i].end, achievements[i].achievement);
+				if (achievements[i].end)
+					document.getElementById("completedAchieves").appendChild(achievementsElement);
+				else
+					document.getElementById("uncompletedAchieves").appendChild(achievementsElement);
+			}
+
+			console.log("test");
 		}
 		else
 			alert("프로젝트 불러오기 실패!")
 	});
+}
+
+project.createAchievementElement = function (isEnd, text) {
+	var achievementElement = document.createElement("li");
+	achievementElement.className = "List";
+	achievementElement.innerText = text;
+
+	var spanChild = document.createElement("span");
+	achievementElement.appendChild(spanChild);
+
+	spanChild.className = "glyphicon glyphicon-minus";
+	spanChild.style = "margin-left: 1%; font-size: 10px;";
+
+	if (isEnd) {
+		var endButton = document.createElement("span");
+		endButton.className = "glyphicon glyphicon-ok";
+		endButton.style = "font-size: 10px;";
+
+		achievementElement.appendChild(endButton);
+	}
+
+	return achievementElement;
 }
 
 project.createProject = function () {
@@ -58,7 +96,7 @@ project.createProject = function () {
 	var projectDesc = inputs[1].value;
 	var projectDeadline = inputs[2].value;
 	var query = String.format("name={0}&desc={1}&json={2}", projectName, projectDesc, JSON.stringify({ deadline: projectDeadline, achievements: project.getAchevements() }));
-
+	document.getElementById("closeModal").click();
 	Utils.Post(query, "../apis/project/createProject", function (response) {
 		if (!response.success)
 			alert("프로젝트 생성에 실패하였습니다!");
@@ -73,8 +111,7 @@ project.createProject = function () {
 project.getAchevements = function () {
 	var array = [];
 	for (var i = 0; i < this.achievementCount; i++) {
-		console.log(document.getElementById("achievementLabel" + i + "text"));
-		array[i] = { achevement: document.getElementById("achievementLabel" + i + "text").innerText, end: false };
+		array[i] = { achievement: document.getElementById("achievementLabel" + i + "text").innerText, end: false };
 	}
 
 	return array;
