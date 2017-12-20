@@ -1,6 +1,7 @@
 ﻿var passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
-var kakaoStratgey = require("passport-kakao").Strategy;
+var KakaoStratgey = require("passport-kakao").Strategy;
+var GoogleStratgey = require("passport-google-oauth2").Strategy;
 
 var dbConnection = require("./Database/dbConnector.js")().getConnection();
 var configs = require("./configs.js");
@@ -31,13 +32,22 @@ passport.use("login", new localStrategy({
 	});
 	}));
 
-passport.use(new kakaoStratgey({
+passport.use(new KakaoStratgey({
 	clientID: configs.kakaotalk.clientId,
-	callbackURL: configs.kakaotalk.callbackURL
+	callbackURL: configs.kakaotalk.callbackURL,
 }, function (accessToken, refreshToken, profile, done) {
-	console.log("asdf");
 	var profileJson = profile._json;
 	loginThirdParty("kakao", profileJson.id, profileJson.properties.nickname, profileJson.id, done);
+	}));
+
+passport.use(new GoogleStratgey({
+	clientID: configs.google.clientId,
+	clientSecret: configs.google.clientSecret,
+	callbackURL: configs.google.callbackURL,
+	passReqToCallback: true
+}, function (accessToken, refreshToken, unknown, profile, done) {
+	var profileJson = profile._json;
+	loginThirdParty("google", profileJson.id, profileJson.displayName, profileJson.id, done);
 }));
 
 passport.serializeUser(function (user, done) {

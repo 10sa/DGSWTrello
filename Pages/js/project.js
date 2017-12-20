@@ -72,10 +72,9 @@ project.createProject = function () {
 
 project.getAchevements = function () {
 	var array = [];
-	for (var i = 0; i < this.achievementCount; i++)
-	{
+	for (var i = 0; i < this.achievementCount; i++) {
 		console.log(document.getElementById("achievementLabel" + i + "text"));
-		array[i] = document.getElementById("achievementLabel" + i + "text").innerText;
+		array[i] = { achevement: document.getElementById("achievementLabel" + i + "text").innerText, end: false };
 	}
 
 	return array;

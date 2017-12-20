@@ -103,8 +103,24 @@ marginwidth="70" class="iframe_Starts" frameborder="0" scrolling="auto"
 }
 
 .List {
+	margin-top: 5%;
+}
+
+.AchieveBoxes {
+
+	width: 40%;
+	height: 90%;
+	margin-left: 3%;
 	margin-top: 2%;
-	margin-left: 6%;
+	float: left;
+
+}
+
+.MiniTop {
+
+	font-size: 20px;
+	margin-left: 2%;
+
 }
 
  body,html{

@@ -32,9 +32,18 @@ router.post("/login", function (request, response) {
 	})(request, response);
 });
 
-router.get("/login/kakao", passport.authenticate("kakao"));
+router.get("/login/kakao", passport.authorize("kakao"));
 
 router.get("/login/kakao/callback", passport.authenticate("kakao", {
+	successRedirect: "/",
+	failureRedirect: "/Pages/login"
+}));
+
+router.get("/login/google", passport.authorize("google", {
+	scope: [ 'profile']
+}));
+
+router.get("/login/google/callback", passport.authenticate("google", {
 	successRedirect: "/",
 	failureRedirect: "/Pages/login"
 }));
