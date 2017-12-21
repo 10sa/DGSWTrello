@@ -103,7 +103,7 @@ project.createAchievementElement = function (isEnd, text, id) {
 		uncompleteLabel.className = "glyphicon glyphicon-ok";
 		uncompleteLabel.style = "font-size: 10px;";
 
-		uncompleteButton.setAttribute("onClick", "project.Achievement.moteToUncomplete(" + id + ")");
+		uncompleteButton.setAttribute("onClick", "project.Achievements.moveToUncomplete(" + id + ")");
 		spanButton.setAttribute("onClick", "project.Achievements.deleteAchievement(" + id + ")");
 
 		uncompleteButton.appendChild(uncompleteLabel);
@@ -119,7 +119,11 @@ project.createAchievementElement = function (isEnd, text, id) {
 
 project.Achievements = {};
 project.Achievements.moveToComplete = function (id) {
-	var achievementLabel = document.getElementById("achievementElement" + id);
+	var achievementElement = document.getElementById("achievementElement" + id);
+	var newAchievementElement = project.createAchievementElement(true, achievementElement.innerText, id);
+	achievementElement.parentElement.removeChild(achievementElement);
+
+	document.getElementById("completedAchieves").appendChild(newAchievementElement);
 }
 
 project.Achievements.moveToUncomplete = function (id) {
