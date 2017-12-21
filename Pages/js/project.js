@@ -120,14 +120,44 @@ project.createAchievementElement = function (isEnd, text, id) {
 project.Achievements = {};
 project.Achievements.moveToComplete = function (id) {
 	var achievementElement = document.getElementById("achievementElement" + id);
-	var newAchievementElement = project.createAchievementElement(true, achievementElement.innerText, id);
-	achievementElement.parentElement.removeChild(achievementElement);
-
-	document.getElementById("completedAchieves").appendChild(newAchievementElement);
+	this.insertElement("completedAchieves", achievementElement, id, true);
 }
 
 project.Achievements.moveToUncomplete = function (id) {
+	var achievementElement = document.getElementById("achievementElement" + id);
+	this.insertElement("uncompletedAchieves", achievementElement, id, false);
+}
 
+project.Achievements.insertElement = function (insertParent, element, id, isCompleted) {
+	var range = document.createRange();
+
+	var insertPos = this.getInsertPos(insertParent, id);
+	var newElement = project.createAchievementElement(isCompleted, element.innerText, id);
+	element.parentElement.removeChild(element);
+
+	if (insertPos) {
+		range.selectNode(insertPos);
+		range.insertNode(newElement);
+	}
+	else
+		document.getElementById(insertParent).appendChild(newElement);
+}
+
+project.Achievements.getInsertPos = function (targetParentId, id) {
+	var nextElement = document.getElementById("achievementElement" + (id + 1));
+	if (nextElement) {
+		for (var i = id + 2; ; i++) {
+			if (nextElement.parentElement.id == targetParentId) {
+				return nextElement;
+			}
+			else {
+				if (!(nextElement = document.getElementById("achievementElement" + (id + i))))
+					return null;
+			}
+		}
+	}
+
+	return null;
 }
 
 project.createProject = function () {
