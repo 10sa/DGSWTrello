@@ -27,10 +27,9 @@ project.refreshProjectList = function () {
 
 				Utils.Post(String.format("projectId={0}", projectId), "../apis/project/getProject", function (response) {
 					var table = document.createElement("a");
-					table.setAttribute("style", "font-size: 16px; text-align: center;");
+					table.setAttribute("style", "font-size: 16px; text-align: center; cursor: pointer");
 					table.setAttribute("class", "pull-center hidden-xs");
 					table.setAttribute("onclick", String.format("project.loadProject({0}); return false;", response.projectId));
-					table.setAttribute("href", "dummy");
 					table.innerText = response.projectName;
 
 					projectTables.appendChild(table);
@@ -74,11 +73,10 @@ project.loadProject = function (projectId) {
 			}
 
 			var percent = (endAchievementCount / achievements.length) * 100;
-			var progressBar = document.getElementById("projectProgressbar")
+			var progressBar = document.getElementById("projectProgressbar");
 			progressBar.setAttribute("aria-valuenow", percent);
 			progressBar.innerText = percent + "%";
 
-			console.log(percent);
 		}
 		else
 			alert("프로젝트 불러오기 실패!")
@@ -93,33 +91,39 @@ project.createAchievementElement = function (isEnd, text, id) {
 
 	var spanButton = document.createElement("a");
 	spanButton.style = "cursor: pointer";
-	achievementElement.appendChild(spanButton);
 
 	var spanLabel = document.createElement("span");
-	spanButton.appendChild(spanLabel);
 
 	spanLabel.className = "glyphicon glyphicon-minus";
 	spanLabel.style = "margin-left: 1%; font-size: 10px;";
-	spanLabel.onclick = "";
 
 	if (isEnd) {
-		var endSpan = document.createElement("span");
-		var endSpanButton = document.createElement("a");
-		endSpan.className = "glyphicon glyphicon-ok";
-		endSpan.style = "font-size: 10px;";
+		var uncompleteLabel = document.createElement("span");
+		var uncompleteButton = document.createElement("a");
+		uncompleteLabel.className = "glyphicon glyphicon-ok";
+		uncompleteLabel.style = "font-size: 10px;";
 
-		endSpanButton.appendChild(endSpan);
-		achievementElement.appendChild(endSpanButton);
+		uncompleteButton.setAttribute("onClick", "project.Achievement.moteToUncomplete(" + id + ")");
+		spanButton.setAttribute("onClick", "project.Achievements.deleteAchievement(" + id + ")");
+
+		uncompleteButton.appendChild(uncompleteLabel);
+		achievementElement.appendChild(uncompleteButton);
 	}
 	else
-		achievementElement.onclick = "project.moveAchievement(" + id + ")";
+		spanButton.setAttribute("onClick", "project.Achievements.moveToComplete(" + id + ")");
 
+	spanButton.appendChild(spanLabel);
+	achievementElement.appendChild(spanButton);
 	return achievementElement;
 }
 
 project.Achievements = {};
 project.Achievements.moveToComplete = function (id) {
-	
+	var achievementLabel = document.getElementById("achievementElement" + id);
+}
+
+project.Achievements.moveToUncomplete = function (id) {
+
 }
 
 project.createProject = function () {
@@ -139,7 +143,7 @@ project.createProject = function () {
 		return;
 	}
 
-	if (!projectDeadline.match(/(\d{4})-(\d{2})-(\d{2})/)) {
+	if (!projectDeadline.match(/(\d{4})-(\d{1, 2})-(\d{1, 2})/)) {
 		alert("잘못된 날자 형식입니다!");
 		return;
 	}
@@ -222,5 +226,6 @@ project.addAchievementToProject = function () {
 
 	Utils.Post(String.format("project={0}", JSON.stringify(projectData)), "/apis/project/updateProject", function (response) {
 		project.refreshProjectList();
+		project.loadProject(project.currentProject.projectId);
 	});
 }
