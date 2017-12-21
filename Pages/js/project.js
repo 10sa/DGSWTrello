@@ -36,6 +36,7 @@ project.refreshProjectList = function() {
 }
 
 project.loadProject = function (projectId) {
+	this.currentProject = projectId;
 	Utils.Post(String.format("projectId={0}", projectId), "../apis/project/getProject", function (response) {
 		if (response.success) {
 			var json = JSON.parse(response.projectJson);
@@ -67,7 +68,11 @@ project.createAchievementElement = function (isEnd, text, id) {
 	achievementElement.onclick = "project.moveAchievement(" + id + ")";
 	achievementElement.id = "achievementElement" + id;
 
+	var spanParent = document.createElement("a");
+	spanParent.href = "dummy";
+
 	var spanChild = document.createElement("span");
+	spanParent.appendChild(spanChild);
 	achievementElement.appendChild(spanChild);
 
 	spanChild.className = "glyphicon glyphicon-minus";
@@ -121,6 +126,7 @@ project.createProject = function () {
 			for (var i = 0; i < inputs.length; i++)
 				inputs[i].value = "";
 			project.clearAchevements();
+			project.refreshProjectList();
 		}
 	});
 }
