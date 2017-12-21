@@ -43,8 +43,8 @@ router.post("/getProject", function (request, response, next) {
 });
 
 router.post("/updateProject", function (request, response, next) {
-	var updateProject = request.body.project;
-	dbConnection.query("UPDATE projects SET projectName = ?, projectDesc = ?, projectJson = ? WHERE projectId = ?", [project.projectName, project.projectDesc, project.projectJson, project.projectId ], function (error, result) {
+	var project = JSON.parse(request.body.project);
+	dbConnection.query("UPDATE projects SET projectName = ?, projectDesc = ?, projectJson = ? WHERE projectId = ?", [project.projectName, project.projectDesc, JSON.stringify(project.projectJson), project.projectId], function (error, result) {
 		if (error)
 			response.json({ success: false });
 		else

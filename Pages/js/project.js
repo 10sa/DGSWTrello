@@ -10,12 +10,17 @@ project.onload = function () {
 	this.refreshProjectList();
 }
 
-project.refreshProjectList = function() {
+project.refreshProjectList = function () {
 	Utils.Post(null, "../apis/project/getProjects", function (response) {
 		if (response.success && response.projects.length > 0) {
 			var projectTables = document.getElementById("projectTables");
+			while (projectTables.hasChildNodes()) {
+				if (projectTables.lastChild.id == "addProjectButton")
+					break;
+				else
+					projectTables.removeChild(projectTables.lastChild);
+			}
 
-			console.log(response.projects);
 			for (var i = 0; i < response.projects.length; i++)
 			{
 				var projectId = response.projects[i].projectId;
@@ -36,25 +41,44 @@ project.refreshProjectList = function() {
 }
 
 project.loadProject = function (projectId) {
-	this.currentProject = projectId;
 	Utils.Post(String.format("projectId={0}", projectId), "../apis/project/getProject", function (response) {
 		if (response.success) {
+			delete response.success;
+
+			project.currentProject = response;
 			var json = JSON.parse(response.projectJson);
 			var achievements = json.achievements;
 			var projectInfo = document.getElementById("projectInfo");
 			projectInfo.setAttribute("style", "visibility:visible");
+			project.currentProject.projectJson = json;
 
+			var completeAchieves = document.getElementById("completedAchieves");
+			var uncompleteAchieves = document.getElementById("uncompletedAchieves");
+			Utils.ClearChildNodes(completeAchieves);
+			Utils.ClearChildNodes(uncompleteAchieves);
+			
 			document.getElementById("projectNameLabel").innerText = response.projectName;
 			document.getElementById("projectDescLabel").innerText = response.projectDesc;
 			document.getElementById("projectDeadlineLabel").innerText = json.deadline;
 
+			var endAchievementCount = 0;
 			for (var i = 0; i < achievements.length; i++) {
 				var achievementsElement = project.createAchievementElement(achievements[i].end, achievements[i].achievement, i);
-				if (achievements[i].end)
-					document.getElementById("completedAchieves").appendChild(achievementsElement);
+				
+				if (achievements[i].end) {
+					completeAchieves.appendChild(achievementsElement);
+					endAchievementCount++;
+				}
 				else
-					document.getElementById("uncompletedAchieves").appendChild(achievementsElement);
+					uncompleteAchieves.appendChild(achievementsElement);
 			}
+
+			var percent = (endAchievementCount / achievements.length) * 100;
+			var progressBar = document.getElementById("projectProgressbar")
+			progressBar.setAttribute("aria-valuenow", percent);
+			progressBar.innerText = percent + "%";
+
+			console.log(percent);
 		}
 		else
 			alert("프로젝트 불러오기 실패!")
@@ -65,33 +89,36 @@ project.createAchievementElement = function (isEnd, text, id) {
 	var achievementElement = document.createElement("li");
 	achievementElement.className = "List";
 	achievementElement.innerText = text;
-	achievementElement.onclick = "project.moveAchievement(" + id + ")";
 	achievementElement.id = "achievementElement" + id;
 
-	var spanParent = document.createElement("a");
-	spanParent.href = "dummy";
+	var spanButton = document.createElement("a");
+	spanButton.style = "cursor: pointer";
+	achievementElement.appendChild(spanButton);
 
-	var spanChild = document.createElement("span");
-	spanParent.appendChild(spanChild);
-	achievementElement.appendChild(spanChild);
+	var spanLabel = document.createElement("span");
+	spanButton.appendChild(spanLabel);
 
-	spanChild.className = "glyphicon glyphicon-minus";
-	spanChild.style = "margin-left: 1%; font-size: 10px;";
-	spanChild.onclick = "";
-	spanChild.setAttribute("href", "dummy");
+	spanLabel.className = "glyphicon glyphicon-minus";
+	spanLabel.style = "margin-left: 1%; font-size: 10px;";
+	spanLabel.onclick = "";
 
 	if (isEnd) {
-		var endButton = document.createElement("span");
-		endButton.className = "glyphicon glyphicon-ok";
-		endButton.style = "font-size: 10px;";
+		var endSpan = document.createElement("span");
+		var endSpanButton = document.createElement("a");
+		endSpan.className = "glyphicon glyphicon-ok";
+		endSpan.style = "font-size: 10px;";
 
-		achievementElement.appendChild(endButton);
+		endSpanButton.appendChild(endSpan);
+		achievementElement.appendChild(endSpanButton);
 	}
+	else
+		achievementElement.onclick = "project.moveAchievement(" + id + ")";
 
 	return achievementElement;
 }
 
-project.moveAchievement = function (id) {
+project.Achievements = {};
+project.Achievements.moveToComplete = function (id) {
 	
 }
 
@@ -123,9 +150,10 @@ project.createProject = function () {
 		if (!response.success)
 			alert("프로젝트 생성에 실패하였습니다!");
 		else {
-			for (var i = 0; i < inputs.length; i++)
+			for (var i = 0; i < inputs.length - 1; i++)
 				inputs[i].value = "";
-			project.clearAchevements();
+
+			project.clearAchievements();
 			project.refreshProjectList();
 		}
 	});
@@ -140,20 +168,20 @@ project.getAchevements = function () {
 	return array;
 }
 
-project.clearAchevements = function () {
+project.clearAchievements = function () {
 	for (var i = 0; i < this.achievementCount; i++)
 		document.getElementById("achievementLabel" + i).remove();
 
 	this.achievementCount = 0;
 }
 
-project.createAchievement = function () {
-	var parentDiv = document.getElementById("achievements");
-	var textValueDocument = document.getElementById("projectAchievements");
+project.createAchievement = function (parentName, achievementName) {
+	var parentDiv = document.getElementById(parentName);
+	var textValueDocument = document.getElementById(achievementName);
 	var text = textValueDocument.value;
 
 	if (text != "") {
-		textForm = document.createElement("ul");
+		var textForm = document.createElement("ul");
 		textForm.id = "achievementLabel" + this.achievementCount;
 		textForm.appendChild(document.createElement("br"));
 
@@ -179,7 +207,20 @@ project.createAchievement = function () {
 	}
 }
 
-project.deleteAchevement = function(identifier) {
+project.deleteAchievement = function(identifier) {
 	var textForm = document.getElementById("achievementLabel" + identifier);
 	textForm.remove();
+}
+
+project.addAchievementToProject = function () {
+	var achievements = this.getAchevements();
+	this.clearAchievements();
+
+	var projectData = this.currentProject;
+	var projectAchievements = projectData.projectJson.achievements;
+	projectData.projectJson.achievements = projectAchievements.concat(achievements);
+
+	Utils.Post(String.format("project={0}", JSON.stringify(projectData)), "/apis/project/updateProject", function (response) {
+		project.refreshProjectList();
+	});
 }
