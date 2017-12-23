@@ -44,8 +44,7 @@
 			<h1 style="margin-top: 3%; text-align: left;" id="projectNameLabel"> PROJECT NAME </h1>
 			<div class="progress" style="width: 50%; vertical-align: left;">
 				<!-- aria-valuenow에 받아온 값을 대입해야 함. progress bar 안의 텍스트에도 동일 !-->
-				<div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
-					 style="text-align: center; vertical-align: center;" id="projectProgressbar">value %</div>
+				<div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"  id="projectProgressbar"></div>
 			</div>
 			<p style="text-align: left; font-size: 13px;" id="projectDescLabel"> Project Description Will Be Show Here </p>
 			<p style="text-align: left; font-size: 15px;" id="projectDeadlineLabel"> 20XX XX XX ~ 20XX XX XX </p>
@@ -77,7 +76,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"> &times; </button>
+					<button type="button" id="configClose" class="close" data-dismiss="modal"> &times; </button>
 					<h4 class="modal-title"> Project Configuration </h4>
 				</div>
 				<div class="modal-body">

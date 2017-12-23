@@ -72,9 +72,9 @@ project.loadProject = function (projectId) {
 					uncompleteAchieves.appendChild(achievementsElement);
 			}
 
-			var percent = (endAchievementCount / achievements.length) * 100;
+			var percent = Math.floor((endAchievementCount / achievements.length) * 100);
 			var progressBar = document.getElementById("projectProgressbar");
-			progressBar.setAttribute("aria-valuenow", percent);
+			progressBar.setAttribute("style", "width: " + percent + "%");
 			progressBar.innerText = percent + "%";
 
 			var configName = document.getElementById("configName");
@@ -88,6 +88,12 @@ project.loadProject = function (projectId) {
 		else
 			alert("프로젝트 불러오기 실패!")
 	});
+}
+
+project.unloadProject = function () {
+	this.currentProject = null;
+	var projectInfo = document.getElementById("projectInfo");
+	projectInfo.setAttribute("style", "visibility:hidden");
 }
 
 project.createAchievementElement = function (isEnd, text, id) {
@@ -284,5 +290,6 @@ project.changeProject = function () {
 }
 
 project.deleteProject = function () {
-
+	document.getElementById("configClose").click();
+	this.unloadProject();
 }
