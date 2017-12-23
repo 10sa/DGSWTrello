@@ -121,11 +121,17 @@ project.Achievements = {};
 project.Achievements.moveToComplete = function (id) {
 	var achievementElement = document.getElementById("achievementElement" + id);
 	this.insertElement("completedAchieves", achievementElement, id, true);
+
+	project.currentProject.projectJson.achievements[id].end = true;
+	project.updateProject();
 }
 
 project.Achievements.moveToUncomplete = function (id) {
 	var achievementElement = document.getElementById("achievementElement" + id);
 	this.insertElement("uncompletedAchieves", achievementElement, id, false);
+
+	project.currentProject.projectJson.achievements[id].end = false;
+	project.updateProject();
 }
 
 project.Achievements.insertElement = function (insertParent, element, id, isCompleted) {
@@ -254,11 +260,13 @@ project.addAchievementToProject = function () {
 	var achievements = this.getAchevements();
 	this.clearAchievements();
 
-	var projectData = this.currentProject;
-	var projectAchievements = projectData.projectJson.achievements;
-	projectData.projectJson.achievements = projectAchievements.concat(achievements);
+	var projectAchievements = currentProject.projectJson.achievements;
+	currentProject.projectJson.achievements = projectAchievements.concat(achievements);
+	this.updateProject();
+}
 
-	Utils.Post(String.format("project={0}", JSON.stringify(projectData)), "/apis/project/updateProject", function (response) {
+project.updateProject = function () {
+	Utils.Post(String.format("project={0}", JSON.stringify(this.currentProject)), "/apis/project/updateProject", function (response) {
 		project.refreshProjectList();
 		project.loadProject(project.currentProject.projectId);
 	});
