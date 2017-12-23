@@ -196,7 +196,7 @@ project.createProject = function () {
 		return;
 	}
 
-	if (!projectDeadline.match(/(\d{4})-(\d{1, 2})-(\d{1, 2})/)) {
+	if (!projectDeadline.match(/(\d{4})-(\d{2})-(\d{2})/)) {
 		alert("잘못된 날자 형식입니다!");
 		return;
 	}
@@ -291,5 +291,10 @@ project.changeProject = function () {
 
 project.deleteProject = function () {
 	document.getElementById("configClose").click();
-	this.unloadProject();
+	Utils.Post(String.format("projectId={0}", this.currentProject.projectId), "/apis/project/deleteProject", function (response) {
+		if (!response.success)
+			alert("프로젝트 삭제 실패!");
+		else
+			project.unloadProject();
+	});
 }

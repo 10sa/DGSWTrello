@@ -23,6 +23,18 @@ router.post("/createProject", function (request, response, next) {
 	});
 });
 
+router.post("/deleteProject", function (request, response, next) {
+	var requestProjectId = request.body.projectId;
+	dbConnection.query("DELETE FROM projects WHERE projectId = ?", requestProjectId, function (error, result) {
+		if (error)
+			response.json({ success: false });
+		else {
+			dbConnection.query("DELETE FROM projectUsers WHERE projectId = ?", requestProjectId);
+			response.json({ success: true });
+		}
+	});
+});
+
 router.post("/getProjects", function (request, response, next) {
 	dbConnection.query("SELECT * FROM projectUsers WHERE userId = ?", request.user.userId, function (error, result) {
 		if (error || result.length <= 0)
