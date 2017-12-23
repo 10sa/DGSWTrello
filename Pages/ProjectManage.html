@@ -84,22 +84,22 @@
 					<form>
 						<div class="form-group">
 							<label for="ReNameProj" text-align="center"> Config Name </label>
-							<input class="form-control" id="ReNameProj" type="text" placeholder="-">
+							<input class="form-control" id="configName" type="text" placeholder="-">
 							<!-- placeholder에 불러온 값 대입, 밑의 것들에도 적용!-->
 						</div>
 
 						<div class="form-group">
 							<label for="ReSetDeadline" text-align="center"> Config Deadline </label>
-							<input class="form-control" id="ReSetDeadline" type="text" placeholder="-">
+							<input class="form-control" id="configDeadline" type="text" placeholder="-">
 						</div>
 
 						<div class="from-group">
 							<label for="ConfigDesc" text-align="center"> Config Description </label>
-							<input class="form-control" id="ConfigDesc" type="text" placeholder="-">
+							<input class="form-control" id="configDesc" type="text" placeholder="-">
 						</div>
 
-						<button type="button" class="btn btn-danger" onClick="" style="margin-top: 3%;"> Project Delete </button>
-						<button type="button" class="btn btn-info" onClick="" style="margin-top: 3%; margin-left: 68%;"> 확인 </button>
+						<button type="button" class="btn btn-danger" onClick="project.deleteProject();" style="margin-top: 3%;"> Project Delete </button>
+						<button type="button" class="btn btn-info" onClick="project.changeProject();" style="margin-top: 3%; margin-left: 68%;"> 확인 </button>
 
 					</form>
 				</div>

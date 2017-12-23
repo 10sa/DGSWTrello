@@ -77,6 +77,13 @@ project.loadProject = function (projectId) {
 			progressBar.setAttribute("aria-valuenow", percent);
 			progressBar.innerText = percent + "%";
 
+			var configName = document.getElementById("configName");
+			var configDesc = document.getElementById("configDesc");
+			var configDeadline = document.getElementById("configDeadline");
+
+			configName.setAttribute("placeholder", project.currentProject.projectName);
+			configDesc.setAttribute("placeholder", project.currentProject.projectDesc);
+			configDeadline.setAttribute("placeholder", project.currentProject.projectJson.deadline);
 		}
 		else
 			alert("프로젝트 불러오기 실패!")
@@ -270,4 +277,12 @@ project.updateProject = function () {
 		project.refreshProjectList();
 		project.loadProject(project.currentProject.projectId);
 	});
+}
+
+project.changeProject = function () {
+
+}
+
+project.deleteProject = function () {
+
 }
