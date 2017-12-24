@@ -286,7 +286,25 @@ project.updateProject = function () {
 }
 
 project.changeProject = function () {
+	var inputs = [
+		document.getElementById("configName"),
+		document.getElementById("configDesc"),
+		document.getElementById("configDeadline")
+	];
 
+	if (!inputs[2].value.match(/(\d{4})-(\d{2})-(\d{2})/)) {
+		alert("잘못된 날자 형식입니다!");
+		return;
+	}
+
+	this.currentProject.projectName = inputs[0].value;
+	this.currentProject.projectDesc = inputs[1].value;
+	this.currentProject.projectDeadline = inputs[2].value;
+
+	for (var i = 0; i < inputs.length; i++)
+		inputs[i].value = "";
+
+	this.updateProject();
 }
 
 project.deleteProject = function () {
