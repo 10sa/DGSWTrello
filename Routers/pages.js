@@ -30,6 +30,18 @@ router.get("/signup", function (request, response, next) {
 	response.sendFile(pagePath + "Signup.html");
 });
 
+router.get("/forgotidpw", function (request, response, next) {
+	response.sendFile(pagePath + "ForgotIDPW.html");
+});
+
+router.get("/findid", function (request, response, next) {
+	response.sendFile(pagePath + "FindId.html");
+});
+
+router.get("/findpw", function (request, response, next) {
+	response.sendFile(pagePath + "Findpw.html");
+});
+
 router.get("/*", function (request, response, next) {
 	if (request.isAuthenticated())
 		response.sendFile(pagePath + request.params[0]);

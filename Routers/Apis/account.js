@@ -66,4 +66,14 @@ router.post("/signup", function (request, response) {
 	});
 });
 
+router.post("/findid", function (request, response) {
+	var requestEmail = request.body.email;
+	dbConnection.query("SELECT * FROM users WHERE email = ?", requestEmail, function (error, result) {
+		if (error)
+			response.json({ success: false });
+		else
+			response.json({ success: true, result[0].id });
+	});
+});
+
 module.exports = router;

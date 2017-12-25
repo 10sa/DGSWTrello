@@ -46,6 +46,28 @@ account.signup = function () {
 		alert("비밀번호가 같지 않습니다!");
 }
 
+account.findId = function (email, callback) {
+	Utils.Post(String.format("email={0}", email), "/findId", function (response) {
+		if (response.success) {
+			var list = document.getElementById("idList");
+
+			Utils.ClearChildNodes(list);
+
+			for (var i = 0; i < response.result.length; i++) {
+				var childNode = document.createElement("li");
+				childNode.innerText = response.result[i];
+
+				list.appendChild(childNode);
+			}
+
+			document.getElementById(modalOpen).click();
+		}
+		else {
+			alert("가입된 ID가 없습니다.");
+		}
+	});
+}
+
 account.getInfo = function (callback) {
 	Utils.Post(null, "../apis/account/getAccountInfo", callback);
 }
