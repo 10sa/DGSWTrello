@@ -17,19 +17,19 @@
 			<form action="">
 				<div style="margin-left: 18%">
 					<div style="margin-top: 35%"></div>
-					<input type="button" placeholder="E-mail" name="Emailbox">
+					<input type="text" placeholder="E-mail" id="emailBox">
 					<div style="margin-top: 10%"></div>
-					<button style="margin-left: 20%" onclick="account.findId()" name="Submit" class="btn btn-default"> Submit </button>
+					<button style="margin-left: 20%" onclick="account.findId(); return false;" name="Submit" class="btn btn-default"> Submit </button>
 				</div>
 			</form>
 		</div>
 
-		<div class="modal fade">
+		<div id="idListForm" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" id="configClose" class="close" data-dismiss="modal"> &times; </button>
-						<h4 class="modal-title"> Project Configuration </h4>
+						<h4 class="modal-title"> ID List </h4>
 					</div>
 					<div class="modal-body">
 						<ul id="idList"></ul>
@@ -38,6 +38,6 @@
 			</div>
 		</div>
 
-		<a id="modalOpen" style="visibility:hidden" data-toggle="modal" data-target="#configproj"></a>
+		<a id="modalOpen" style="visibility:hidden" data-toggle="modal" data-target="#idListForm"></a>
 	</body>
 </html>

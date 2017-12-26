@@ -71,8 +71,13 @@ router.post("/findid", function (request, response) {
 	dbConnection.query("SELECT * FROM users WHERE email = ?", requestEmail, function (error, result) {
 		if (error)
 			response.json({ success: false });
-		else
-			response.json({ success: true, result[0].id });
+		else {
+			var data = [];
+			for (var i = 0; i < result.length; i++)
+				data[i] = result[i].id;
+
+			response.json({ success: true, data });
+		}
 	});
 });
 

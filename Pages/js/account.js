@@ -46,24 +46,23 @@ account.signup = function () {
 		alert("비밀번호가 같지 않습니다!");
 }
 
-account.findId = function (email, callback) {
-	Utils.Post(String.format("email={0}", email), "/findId", function (response) {
-		if (response.success) {
+account.findId = function (callback) {
+	var email = document.getElementById("emailBox").value;
+	Utils.Post(String.format("email={0}", email), "../apis/account//findId", function (response) {
+		if (!response.success || response.data.length <= 0) {
+			alert("가입된 ID가 없습니다.");
+		}
+		else {
 			var list = document.getElementById("idList");
-
 			Utils.ClearChildNodes(list);
-
-			for (var i = 0; i < response.result.length; i++) {
+			for (var i = 0; i < response.data.length; i++) {
 				var childNode = document.createElement("li");
-				childNode.innerText = response.result[i];
+				childNode.innerText = response.data[i];
 
 				list.appendChild(childNode);
 			}
 
-			document.getElementById(modalOpen).click();
-		}
-		else {
-			alert("가입된 ID가 없습니다.");
+			document.getElementById("modalOpen").click();
 		}
 	});
 }

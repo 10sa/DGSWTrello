@@ -38,8 +38,8 @@ router.get("/findid", function (request, response, next) {
 	response.sendFile(pagePath + "FindId.html");
 });
 
-router.get("/findpw", function (request, response, next) {
-	response.sendFile(pagePath + "Findpw.html");
+router.get("/changepw", function (request, response, next) {
+	response.sendFile(pagePath + "ChangePW.html");
 });
 
 router.get("/*", function (request, response, next) {
