@@ -179,6 +179,12 @@ project.Achievements.getInsertPos = function (targetParentId, id) {
 	return null;
 }
 
+project.Achievements.deleteAchievement = function (id) {
+	// project.currentProject.projectJson.achievements[id];
+	project.currentProject.projectJson.achievements.splice(id, 1);
+	project.updateProject();
+}
+
 project.createProject = function () {
 	var inputs = [
 		document.getElementById("projectName"),
@@ -254,7 +260,7 @@ project.createAchievement = function (parentName, achievementName) {
 
 		var textFormButton = document.createElement("button");
 		textFormButton.setAttribute("type", "button");
-		textFormButton.setAttribute("id", this.achievementCount);
+		textFormButton.setAttribute("id", "achievementList" + this.achievementCount);
 		textFormButton.setAttribute("class", "btn btn-default");
 		textFormButton.setAttribute("onClick", "project.deleteAchievement(" + this.achievementCount + ")");
 		textFormButton.innerText = "Delete";
@@ -273,8 +279,8 @@ project.addAchievementToProject = function () {
 	var achievements = this.getAchevements();
 	this.clearAchievements();
 
-	var projectAchievements = currentProject.projectJson.achievements;
-	currentProject.projectJson.achievements = projectAchievements.concat(achievements);
+	var projectAchievements = this.currentProject.projectJson.achievements;
+	this.currentProject.projectJson.achievements = projectAchievements.concat(achievements);
 	this.updateProject();
 }
 

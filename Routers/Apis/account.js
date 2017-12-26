@@ -67,7 +67,7 @@ router.post("/signup", function (request, response) {
 	var nickname = request.body.nickname;
 
 	dbConnection.query("SELECT * FROM users WHERE email = ?", email, function (error, result) {
-		if (error || result)
+		if (error || result.length > 0)
 			response.json({ success: false, error: "이미 해당 이메일로 계정이 생성되어 있습니다!" });
 		else {
 			dbConnection.query("INSERT users VALUES (?, ?, ?, ?, null, 0);", [id, password, email, nickname], function (error, result) {
