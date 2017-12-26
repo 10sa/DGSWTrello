@@ -34,13 +34,20 @@ router.post("/login", function (request, response) {
 
 router.get("/login/kakao", passport.authorize("kakao"));
 
+router.get("/login/github", passport.authorize("github"));
+
+router.get("/login/google", passport.authorize("google", {
+	scope: [ 'profile']
+}));
+
 router.get("/login/kakao/callback", passport.authenticate("kakao", {
 	successRedirect: "/",
 	failureRedirect: "/Pages/login"
 }));
 
-router.get("/login/google", passport.authorize("google", {
-	scope: [ 'profile']
+router.get("/login/github/callback", passport.authenticate("github", {
+	successRedirect: "/",
+	failureRedirect: "/Pages/login"
 }));
 
 router.get("/login/google/callback", passport.authenticate("google", {

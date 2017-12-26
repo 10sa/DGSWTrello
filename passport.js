@@ -2,6 +2,7 @@
 var localStrategy = require("passport-local").Strategy;
 var KakaoStratgey = require("passport-kakao").Strategy;
 var GoogleStratgey = require("passport-google-oauth2").Strategy;
+var GithubStratgey = require("passport-github2").Strategy;
 
 var dbConnection = require("./Database/dbConnector.js")().getConnection();
 var configs = require("./configs.js");
@@ -48,6 +49,15 @@ passport.use(new GoogleStratgey({
 }, function (accessToken, refreshToken, unknown, profile, done) {
 	var profileJson = profile._json;
 	loginThirdParty("google", profileJson.id, profileJson.displayName, profileJson.id, done);
+	}));
+
+passport.use(new GithubStratgey({
+	clientID: configs.github.cliendId,
+	clientSecret: configs.github.clientSecret,
+	callbackURL: configs.github.callbackURL
+}, function (accessToken, refreshToken, profile, done) {
+	var profileJson = profile._json;
+	loginThirdParty("github", profileJson.id, profileJson.name, profileJson.id, done);
 }));
 
 passport.serializeUser(function (user, done) {

@@ -68,8 +68,8 @@
     <Content Include="Pages\Old_Signup.html" />
     <Content Include="Pages\ProjectManage.html" />
     <Content Include="Pages\resources\ChangePW.png" />
-    <Content Include="Pages\resources\facebook_icon.jpg" />
     <Content Include="Pages\resources\FindID.png" />
+    <Content Include="Pages\resources\github_icon.png" />
     <Content Include="Pages\resources\Goback_arrow.png" />
     <Content Include="Pages\resources\google_icon.png" />
     <Content Include="Pages\resources\kakaotalk_icon.png" />
