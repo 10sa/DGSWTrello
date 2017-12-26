@@ -110,4 +110,14 @@ router.post("/changePw", function (request, response) {
 	});
 });
 
+router.post("/getNicknameById", function (request, response) {
+	var userId = request.body.userId;
+	dbConnection.query("SELECT * FROM users WHERE userId = ?", userId, function (error, result) {
+		if (error)
+			response.json({ success: false });
+		else
+			response.json({ success: true, nickname: result[0].nickname });
+	});
+});
+
 module.exports = router;

@@ -73,6 +73,7 @@
     <Content Include="Pages\resources\Goback_arrow.png" />
     <Content Include="Pages\resources\google_icon.png" />
     <Content Include="Pages\resources\kakaotalk_icon.png" />
+    <Content Include="Pages\resources\project_userlist.png" />
     <Content Include="Pages\resources\sampleusericon.png" />
     <Content Include="Pages\Signup.html" />
     <Content Include="README.md" />

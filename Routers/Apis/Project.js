@@ -65,8 +65,8 @@ router.post("/updateProject", function (request, response, next) {
 });
 
 router.post("/getProjectUsers", function (request, response, next) {
-	var reqeustProjectId = requset.body.projectId;
-	dbConnection.query("SELECT * FROM projectUsers WHERE userId = ?", requestProjectId, function (error, result) {
+	var requestProjectId = request.body.projectId;
+	dbConnection.query("SELECT * FROM projectUsers WHERE projectId = ?", requestProjectId, function (error, result) {
 		if (error)
 			response.json({ success: false });
 		else
@@ -75,14 +75,27 @@ router.post("/getProjectUsers", function (request, response, next) {
 });
 
 router.post("/inviteUserToProject", function (request, response, next) {
-	var target = request.body.targetId;
-	var projectId = requset.body.targetId;
+	var target = request.body.userId;
+	var projectId = request.body.projectId;
 
 	dbConnection.query("INSERT projectUsers VALUES (?, ?)", [target, projectId], function (error, result) {
 		if (error)
 			response.json({ success: false });
 		else
 			response.json({ success: true });
+	});
+});
+
+router.post("/removeProjectUser", function (request, response, done) {
+	var userId = request.body.userId;
+	var projectId = request.body.projectId;
+
+	dbConnection.query("DELETE FROM projectUsers WHERE userId = ? and projectId = ?", [userId, projectId], function (error, result) {
+		if (error)
+			response.json({ success: false });
+		else {
+			response.json({ success: true });
+		}
 	});
 });
 

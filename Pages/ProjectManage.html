@@ -25,7 +25,7 @@
 				</button>
 				<div>
 					<img src="resources/sampleusericon.png" alt="usericon" class="usericon">
-					<a class="navbar-brand" id="usernameLabel" href="projects"> &nbsp;&nbsp;&nbsp;&nbsp; </a>
+					<a class="navbar-brand" id="usernameLabel"> &nbsp;&nbsp;&nbsp;&nbsp; </a>
 					<a class="navbar-brand" href="dummy" onclick="account.Logout();"> &nbsp;&nbsp;&nbsp;&nbsp; Logout </a>
 				</div>
 			</div>
@@ -44,14 +44,14 @@
 			<h1 style="margin-top: 3%; text-align: left;" id="projectNameLabel"> PROJECT NAME </h1>
 			<div class="progress" style="width: 50%; vertical-align: left;">
 				<!-- aria-valuenow에 받아온 값을 대입해야 함. progress bar 안의 텍스트에도 동일 !-->
-				<div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"  id="projectProgressbar"></div>
+				<div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" id="projectProgressbar"></div>
 			</div>
 			<p style="text-align: left; font-size: 13px;" id="projectDescLabel"> Project Description Will Be Show Here </p>
 			<p style="text-align: left; font-size: 15px;" id="projectDeadlineLabel"> 20XX XX XX ~ 20XX XX XX </p>
 		</div>
 		<p style="font-size: 25px; margin-top: 3%; margin-left: 5%;">
 			Achieves
-			<a style="cursor:pointer" data-toggle="modal" data-target="#addAchievementsModal" ><span class="glyphicon glyphicon-plus" style="font-size: 15px; margin-left: 1%;"></span></a>
+			<a style="cursor:pointer" data-toggle="modal" data-target="#addAchievementsModal"><span class="glyphicon glyphicon-plus" style="font-size: 15px; margin-left: 1%;"></span></a>
 		</p>
 		<p style="margin-left: 93.7%; margin-top: -2%;">
 			<a href="#" data-toggle="modal" data-target="#configproj"> <span class="glyphicon glyphicon-cog"></span> </a>
@@ -59,14 +59,12 @@
 		<div class="Contents_box">
 			<div class="AchieveBoxes">
 				<p class="MiniTop"> Completed Achieves </p>
-				<ul style="font-size: 15px; margin-left: 3%; margin-top: 5%; display: inline-block; width: 40%;" id="completedAchieves">
-				</ul>
+				<ul style="font-size: 15px; margin-left: 3%; margin-top: 5%; display: inline-block; width: 40%;" id="completedAchieves"></ul>
 			</div>
 			<form>
 				<div class="AchieveBoxes" id="Login">
 					<p class="MiniTop"> Uncompleted Achieves </p>
-					<ul style="font-size: 15px; margin-top: 5%; margin-left: 5%; display: inline-block; width: 60%;" id="uncompletedAchieves">
-					</ul>
+					<ul style="font-size: 15px; margin-top: 5%; margin-left: 5%; display: inline-block; width: 60%;" id="uncompletedAchieves"></ul>
 				</div>
 			</form>
 		</div>
@@ -97,9 +95,34 @@
 							<input class="form-control" id="configDesc" type="text" placeholder="-">
 						</div>
 
-						<button type="button" class="btn btn-danger" onClick="project.deleteProject();" style="margin-top: 3%;"> Project Delete </button>
-						<button type="button" class="btn btn-info" onClick="project.changeProject();" style="margin-top: 3%; margin-left: 68%;"> 확인 </button>
+						<div>
+							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#users" onclick="project.loadUsers()" style="margin-top: 3%;"> Project Users </button>
+							<button type="button" class="btn btn-info" onClick="project.changeProject();" style="margin-top: 3%;"> OK </button>
+							<button type="button" class="btn btn-danger" onClick="project.deleteProject();" style="margin-top: -9%; margin-left: 78%"> Project Delete </button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<div id="users" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" id="configClose" class="close" data-dismiss="modal"> &times; </button>
+					<h4 class="modal-title"> Project Users </h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<ul id="userList"></ul>
+
+						<div class="from-group">
+							<label for="UserAdd" text-align="center"> User Add </label>
+							<input class="form-control" id="userIdText" type="number" placeholder="User ID">
+						</div>
+
+						<button type="button" class="btn btn-info" onClick="project.addUser();" style="margin-top: 2%"> Add User </button>
 					</form>
 				</div>
 			</div>
@@ -147,7 +170,7 @@
 		</div>
 	</div>
 
-	<div id="addAchievementsModal", class="modal fade">
+	<div id="addAchievementsModal" , class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">

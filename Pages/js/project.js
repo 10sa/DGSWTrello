@@ -4,7 +4,7 @@ project.achievementCount = 0;
 
 project.onload = function () {
 	account.getInfo(function (response) {
-		document.getElementById("usernameLabel").innerText += response.nickname;
+		document.getElementById("usernameLabel").innerText += response.nickname + " #" + response.userId;
 		});
 
 	this.refreshProjectList();
@@ -292,14 +292,14 @@ project.changeProject = function () {
 		document.getElementById("configDeadline")
 	];
 
-	if (!inputs[2].value.match(/(\d{4})-(\d{2})-(\d{2})/)) {
+	if (!inputs[2].value.match(/(\d{4})-(\d{2})-(\d{2})/) && inputs[2].value != "") {
 		alert("잘못된 날자 형식입니다!");
 		return;
 	}
 
-	this.currentProject.projectName = inputs[0].value;
-	this.currentProject.projectDesc = inputs[1].value;
-	this.currentProject.projectDeadline = inputs[2].value;
+	this.currentProject.projectName = inputs[0].value == "" ? this.currentProject.projectName : inputs[0].value;
+	this.currentProject.projectDesc = inputs[1].value == "" ? this.currentProject.projectDesc : inputs[1].value;
+	this.currentProject.projectDeadline = inputs[2].value == "" ? this.currentProject.projectDeadline : inputs[2].value;
 
 	for (var i = 0; i < inputs.length; i++)
 		inputs[i].value = "";
@@ -314,5 +314,71 @@ project.deleteProject = function () {
 			alert("프로젝트 삭제 실패!");
 		else
 			project.unloadProject();
+	});
+}
+
+project.loadUsers = function () {
+	var userListForm = document.getElementById("userList");
+
+	document.getElementById("configClose").click();
+	Utils.ClearChildNodes(userListForm);
+
+	Utils.Post(String.format("projectId={0}", project.currentProject.projectId), "/apis/project/getProjectUsers", function (response) {
+		if (response.success) {
+			var users = response.users;
+
+			var count = 0;
+			for (var i = 0; i < users.length; i++) {
+				account.getInfo(function (response) {
+					var currentCount = count;
+					count++;
+
+					if (users[currentCount].userId == response.userId)
+						return;
+
+					Utils.Post(String.format("userId={0}", users[currentCount].userId), "/apis/account/getNicknameById", function (response) {
+						if (response.success) 
+							userListForm.appendChild(project.createUserListElement(response.nickname, users[currentCount].userId));
+						else
+							alert("유저 목록 로드 실패!");
+					});
+				});
+			}
+		}
+	});
+}
+
+project.createUserListElement = function (nickname, userId) {
+	var label = document.createElement("li");
+	label.innerText = nickname + " #" + userId;
+
+	var labelButton = document.createElement("span");
+	labelButton.style = "cursor: pointer; font-size: 15px; margin-left: 1%;";
+	labelButton.className = "glyphicon glyphicon-minus";
+	labelButton.setAttribute("onclick", "project.removeProjectUser(" + userId + ");");
+	label.id = "userListElement" + userId;
+
+	label.appendChild(labelButton);
+	return label;
+}
+
+project.removeProjectUser = function (userId) {
+	Utils.Post(String.format("userId={0}&projectId={1}", userId, project.currentProject.projectId), "/apis/project/removeProjectUser", function (response) {
+		if (response.success) {
+			project.loadUsers();
+		}
+		else
+			alert("유저 삭제 실패!");
+	});
+}
+
+project.addUser = function () {
+	var targetUserId = document.getElementById("userIdText").value;
+
+	Utils.Post(String.format("userId={0}&projectId={1}", targetUserId, project.currentProject.projectId), "/apis/project/inviteUserToProject", function (response) {
+		if (response.success)
+			project.loadUsers();
+		else
+			alert("유저 초대 실패!");
 	});
 }
