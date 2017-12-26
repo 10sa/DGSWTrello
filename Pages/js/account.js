@@ -23,6 +23,7 @@ account.signup = function () {
 	var password = document.getElementById("password").value;
 	var rePassword = document.getElementById("rePassword").value;
 	var email = document.getElementById("email").value;
+	var nickname = document.getElementById("nickname").value;
 
 	if (password == "" || id == "" || email == "") {
 		alert("값은 공백일 수 없습니다!");
@@ -33,11 +34,15 @@ account.signup = function () {
 		return;
 	}
 
-	var data = String.format("id={0}&password={1}&email={2}", id, password, email);
+	var data = String.format("id={0}&password={1}&email={2}&nickname={3}", id, password, email, nickname);
 	if (password == rePassword) {
 		Utils.Post(data, "../apis/account/signup", function (response) {
-			if (!response.success)
-				alert("계정 생성에 실패하였습니다!");
+			if (!response.success) {
+				if (response.error)
+					alert(response.error);
+				else
+					alert("계정 생성에 실패하였습니다!");
+			}
 			else
 				window.location.href = "/Pages/login";
 		});
@@ -48,6 +53,12 @@ account.signup = function () {
 
 account.findId = function () {
 	var email = document.getElementById("emailBox").value;
+
+	if (!email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
+		alert("잘못된 이메일 형식입니다!");
+		return;
+	}
+
 	Utils.Post(String.format("email={0}", email), "../apis/account//findId", function (response) {
 		if (!response.success || response.data.length <= 0) {
 			alert("가입된 ID가 없습니다.");
@@ -72,6 +83,11 @@ account.changepw = function () {
 	var email = document.getElementById("email").value;
 	var password = document.getElementById("password").value;
 	var rePassword = document.getElementById("repassword").value;
+
+	if (!email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
+		alert("잘못된 이메일 형식입니다!");
+		return;
+	}
 
 	if (password == rePassword) {
 		Utils.Post(String.format("id={0}&email={1}&password={2}", id, email, password), "../apis/account/changepw", function (response) {

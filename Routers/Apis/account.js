@@ -64,12 +64,19 @@ router.post("/signup", function (request, response) {
 	var id = request.body.id;
 	var password = request.body.password;
 	var email = request.body.email;
+	var nickname = request.body.nickname;
 
-	dbConnection.query("insert users values (?, ?, ?, ?, null, 0);", [id, password, email, "test"], function (error, result) {
-		if (error)
-			response.json({ success: false });
-		else
-			response.json({ success: true });
+	dbConnection.query("SELECT * FROM users WHERE email = ?", email, function (error, result) {
+		if (error || result)
+			response.json({ success: false, error: "이미 해당 이메일로 계정이 생성되어 있습니다!" });
+		else {
+			dbConnection.query("INSERT users VALUES (?, ?, ?, ?, null, 0);", [id, password, email, nickname], function (error, result) {
+				if (error)
+					response.json({ success: false });
+				else
+					response.json({ success: true });
+			});
+		}
 	});
 });
 
@@ -80,8 +87,10 @@ router.post("/findid", function (request, response) {
 			response.json({ success: false });
 		else {
 			var data = [];
-			for (var i = 0; i < result.length; i++)
-				data[i] = result[i].id;
+			for (var i = 0; i < result.length; i++) {
+				if (!result[i].thirdPartyId)
+					data[i] = result[i].id;
+			}
 
 			response.json({ success: true, data });
 		}
