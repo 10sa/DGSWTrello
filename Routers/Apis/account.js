@@ -81,4 +81,17 @@ router.post("/findid", function (request, response) {
 	});
 });
 
+router.post("/changePw", function (request, response) {
+	var id = request.body.id;
+	var password = request.body.password;
+	var email = request.body.email;
+
+	dbConnection.query("UPDATE users SET password = ? WHERE id = ? and email = ?", [password, id, email], function (error, result) {
+		if (error || result.length <= 0)
+			response.json({ success: false });
+		else
+			response.json({ success: true });
+	});
+});
+
 module.exports = router;

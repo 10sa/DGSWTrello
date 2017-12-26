@@ -46,7 +46,7 @@ account.signup = function () {
 		alert("비밀번호가 같지 않습니다!");
 }
 
-account.findId = function (callback) {
+account.findId = function () {
 	var email = document.getElementById("emailBox").value;
 	Utils.Post(String.format("email={0}", email), "../apis/account//findId", function (response) {
 		if (!response.success || response.data.length <= 0) {
@@ -65,6 +65,27 @@ account.findId = function (callback) {
 			document.getElementById("modalOpen").click();
 		}
 	});
+}
+
+account.changepw = function () {
+	var id = document.getElementById("id").value;
+	var email = document.getElementById("email").value;
+	var password = document.getElementById("password").value;
+	var rePassword = document.getElementById("repassword").value;
+
+	if (password == rePassword) {
+		Utils.Post(String.format("id={0}&email={1}&password={2}", id, email, password), "../apis/account/changepw", function (response) {
+			if (response.success) {
+				alert("변경 완료!");
+				window.location.href = "/Pages/login";
+			}
+			else
+				alert("ID 또는 Email를 다시 확인하세요!");
+		});
+	}
+	else {
+		alert("비밀번호가 같지 않습니다!");
+	}
 }
 
 account.getInfo = function (callback) {

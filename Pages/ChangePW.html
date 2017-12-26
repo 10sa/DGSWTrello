@@ -1,25 +1,34 @@
 ﻿<!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/Noname_Style.css" type="text/css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/utils.js"></script>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/Noname_Style.css" type="text/css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/account.js"></script>
+</head>
 	<body>
-			<div class="Cover_box">
-				<div><a href="Login.html" target="_blank"><img width="45px" height="36px" align="left" style="margin-top: 7px; margin-left: 10px" src="resources/Goback_arrow.png"></a></div>
-				<form action="">
-					<div style="margin-top: 52%; margin-left: 18%"> &nbsp;
-					<input type="text" placeholder="Your ID" name="IDbox" style="margin-left: -6.1%;">
+		<div class="Cover_box">
+			<a style="cursor: pointer" onclick="window.location.href='login'"><img width="45px" height="36px" align="left" style="margin-top: 10px; margin-left: 10px" src="resources/Goback_arrow.png"></a>
+			<form action="">
+				<div style="margin-top: 52%; margin-left: 18%">
+					&nbsp;
+					<input type="text" placeholder="ID" id="id" style="margin-left: -6.1%;">
 					<div style="margin-top: 5%;"> </div>
-					<input type="text" placeholder="E-Mail" name="Emailbox">
-					<div style="margin-top: 5%"> &nbsp; </div>
-					<button class="btn btn-default" style="margin-left: 25%"> Submit </button>
+					<input type="text" placeholder="Email" id="email">
+					<div style="margin-top: 5%;"> </div>
+					<input type="text" placeholder="Password" id="password" />
+					<div style="margin-top: 5%;"> </div>
+					<input type="text" placeholder="RePassword" id="repassword">
+					<div style="margin-top: 5%;"> </div>
+
+					<button type="button" onclick="account.changepw();" class="btn btn-default" style="margin-left: 25%"> Submit </button>
 				</div>
-				</form>
+			</form>
 		</div>
+
+		<a id="modalOpen" style="visibility:hidden" data-toggle="modal" data-target="#pwChangeForm"></a>
 	</body>
 </html>
