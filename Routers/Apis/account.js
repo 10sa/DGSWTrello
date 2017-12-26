@@ -87,7 +87,7 @@ router.post("/changePw", function (request, response) {
 	var email = request.body.email;
 
 	dbConnection.query("UPDATE users SET password = ? WHERE id = ? and email = ?", [password, id, email], function (error, result) {
-		if (error || result.length <= 0)
+		if (error || result.changedRows <= 0)
 			response.json({ success: false });
 		else
 			response.json({ success: true });
