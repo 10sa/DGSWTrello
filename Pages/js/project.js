@@ -318,8 +318,10 @@ project.deleteProject = function () {
 	Utils.Post(String.format("projectId={0}", this.currentProject.projectId), "/apis/project/deleteProject", function (response) {
 		if (!response.success)
 			alert("프로젝트 삭제 실패!");
-		else
+		else {
 			project.unloadProject();
+			project.refreshProjectList();
+		}
 	});
 }
 

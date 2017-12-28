@@ -47,6 +47,9 @@
     <Compile Include="Routers\Apis\account.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Routers\Apis\kakaochat.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Routers\Apis\Project.js">
       <SubType>Code</SubType>
     </Compile>
